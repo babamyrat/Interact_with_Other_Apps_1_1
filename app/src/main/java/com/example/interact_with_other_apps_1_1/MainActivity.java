@@ -2,6 +2,7 @@ package com.example.interact_with_other_apps_1_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,18 +22,16 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
 
         button.setOnClickListener(view -> {
-// Event is on January 23, 2021 -- from 7:30 AM to 10:30 AM.
-            Intent calendarIntent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
-            Calendar beginTime = Calendar.getInstance();
-            beginTime.set(2021, 0, 23, 7, 30);
-            Calendar endTime = Calendar.getInstance();
-            endTime.set(2021, 0, 23, 10, 30);
-            calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis());
-            calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis());
-            calendarIntent.putExtra(CalendarContract.Events.TITLE, "Ninja class");
-            calendarIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, "Secret dojo");
+            // Build the intent.
+            Uri location = Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
 
-            startActivity(calendarIntent);
+            // Try to invoke the intent.
+            try {
+                startActivity(mapIntent);
+            } catch (ActivityNotFoundException e) {
+                // Define what your app should do if no activity can handle the intent.
+            }
 
         });
     }
