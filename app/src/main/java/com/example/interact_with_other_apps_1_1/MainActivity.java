@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.widget.Button;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     Button button;
@@ -18,15 +21,18 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
 
         button.setOnClickListener(view -> {
-            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            // The intent does not have a URI, so declare the "text/plain" MIME type
-            emailIntent.setType("text/plain");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"jan@example.com"}); // recipients
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email subject");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message text");
-            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
-            // You can also attach multiple items by passing an ArrayList of Uris
-            startActivity(emailIntent);
+// Event is on January 23, 2021 -- from 7:30 AM to 10:30 AM.
+            Intent calendarIntent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
+            Calendar beginTime = Calendar.getInstance();
+            beginTime.set(2021, 0, 23, 7, 30);
+            Calendar endTime = Calendar.getInstance();
+            endTime.set(2021, 0, 23, 10, 30);
+            calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis());
+            calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis());
+            calendarIntent.putExtra(CalendarContract.Events.TITLE, "Ninja class");
+            calendarIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, "Secret dojo");
+
+            startActivity(calendarIntent);
 
         });
     }
