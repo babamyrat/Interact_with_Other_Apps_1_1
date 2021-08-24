@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
 
         button.setOnClickListener(view -> {
-            //Maps view
-            Uri location = Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California");
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
-            startActivity(mapIntent);
+            //browser view
+            Uri webpage = Uri.parse("https://www.android.com");
+            Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+            startActivity(webIntent);
 
         });
     }
