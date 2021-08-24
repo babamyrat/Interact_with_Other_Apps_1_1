@@ -18,10 +18,15 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
 
         button.setOnClickListener(view -> {
-            //browser view
-            Uri webpage = Uri.parse("https://www.android.com");
-            Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
-            startActivity(webIntent);
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            // The intent does not have a URI, so declare the "text/plain" MIME type
+            emailIntent.setType("text/plain");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"jan@example.com"}); // recipients
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email subject");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message text");
+            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
+            // You can also attach multiple items by passing an ArrayList of Uris
+            startActivity(emailIntent);
 
         });
     }
